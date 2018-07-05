@@ -56,6 +56,7 @@ var initDb = function(callback) {
   });
 };
 
+/*
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -75,7 +76,7 @@ app.get('/', function (req, res) {
   } else {
     res.render('index.html', { pageCountMessage : null});
   }
-});
+});*/
 
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
@@ -102,9 +103,9 @@ initDb(function(err){
   console.log('Error connecting to Mongo. Message:\n'+err);
 });
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
 
 
