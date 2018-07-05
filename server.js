@@ -10,7 +10,7 @@ app.engine('html', require('ejs').renderFile);
 // app.use(morgan('combined'))
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
 
@@ -59,6 +59,7 @@ var initDb = function (callback) {
 };
 */
 
+/*
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -79,6 +80,7 @@ app.get('/', function (req, res) {
     res.render('index.html', { pageCountMessage : null});
   }
 });
+*/
 
 /*
 app.get('/pagecount', function (req, res) {
@@ -98,25 +100,24 @@ app.get('/pagecount', function (req, res) {
 });
 */
 
-// app.use(express.static(path.join(__dirname, 'client/dist/client')));
-// app.get('*', function (req, res) {
-//     console.error("request", req);
+app.use(express.static(path.join(__dirname, 'client/dist/client')));
+app.get('*', function (req, res) {
+    console.log("request", req);
     // res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
-    // res.sendFile(path.join(__dirname, 'index.html'));
-// })
+    res.sendFile(path.join(__dirname, 'index.html'));
+    // res.render('index.html', {pageCountMessage: null});
+})
 
 
 // error handling
 app.use(function (err, req, res, next) {
-    console.log(err.stack);
+    console.error(err.stack);
     res.status(500).send('Something bad happened!');
 });
 
 // initDb(function (err) {
 //     console.log('Error connecting to Mongo. Message:\n' + err);
 // });
-
-
 
 
 app.listen(port, ip);
